@@ -1,0 +1,17 @@
+<component name="ArtifactManager">
+  <artifact name="dist">
+    <output-path>$PROJECT_DIR$/out/artifacts/dist</output-path>
+    <root id="root">
+      <element id="directory" name="visual-studio">
+        <element id="directory" name="lib">
+          <element id="zip-archive" name="visual-studio.jar">
+            <element id="module-production-resource-output" name="consulo-visual-studio" />
+            <element id="module-output" name="consulo-visual-studio" />
+            <element id="module-output" name="csproj-support" />
+            <element id="module-production-resource-output" name="csproj-support" />
+          </element>
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>
