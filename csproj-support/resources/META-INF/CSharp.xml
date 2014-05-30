@@ -15,17 +15,7 @@
   -->
 
 <idea-plugin>
-	<id>org.mustbe.consulo.visualStudio</id>
-	<name>Visual Studio Importer</name>
-	<depends optional="true">org.mustbe.consulo.microsoft.dotnet</depends>
-	<depends optional="true" config-file="CSharp.xml">org.mustbe.consulo.csharp</depends>
-
-	<extensionPoints>
-		<extensionPoint name="projectProcessor" interface="org.mustbe.consulo.visualStudio.VisualStudioProjectProcessor" />
-	</extensionPoints>
-
-	<extensions defaultExtensionNs="com.intellij">
-		<fileTypeFactory implementation="org.mustbe.consulo.visualStudio.VisualStudioFileTypeFactory" />
-		<projectImportProvider implementation="org.mustbe.consulo.visualStudio.VisualStudioImporterProvider" />
+	<extensions defaultExtensionNs="org.mustbe.consulo.visualStudio">
+		<projectProcessor implementation="org.mustbe.consulo.visualStudio.csproj.CsProjProcessor" />
 	</extensions>
 </idea-plugin>
