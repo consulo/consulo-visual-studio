@@ -36,6 +36,16 @@
           </library>
         </orderEntry>
         <orderEntry type="module" module-name="consulo-visual-studio" />
+        <orderEntry type="module-library">
+          <library name="consulo:C#">
+            <CLASSES>
+              <root url="jar://$MODULE_DIR$/../dep/csharp/lib/csharp.jar!/" />
+              <root url="jar://$MODULE_DIR$/../dep/csharp/lib/jel.jar!/" />
+            </CLASSES>
+            <DOCUMENTATION />
+            <SOURCES />
+          </library>
+        </orderEntry>
       </module>
       <module name="consulo-visual-studio" dirurl="file://$PROJECT_DIR$">
         <extension id="consulo-plugin" sdk-module-name="" sdk-name="Consulo 1.SNAPSHOT" custom-plugin-dir-url="file://$MODULE_DIR$/dep" />
