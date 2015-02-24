@@ -16,8 +16,6 @@
 
 package org.mustbe.consulo.visualStudio.csproj;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -27,20 +25,16 @@ import java.util.Map;
 import org.consulo.lombok.annotations.Logger;
 import org.jdom.Document;
 import org.jdom.Element;
-import org.jdom.JDOMException;
 import org.jetbrains.annotations.NotNull;
-import org.mustbe.consulo.csharp.module.CSharpConfigurationLayer;
 import org.mustbe.consulo.dotnet.DotNetTarget;
-import org.mustbe.consulo.dotnet.module.MainConfigurationLayerImpl;
-import org.mustbe.consulo.dotnet.module.extension.DotNetModuleExtension;
 import org.mustbe.consulo.microsoft.csharp.module.extension.MicrosoftCSharpMutableModuleExtension;
 import org.mustbe.consulo.microsoft.dotnet.module.extension.MicrosoftDotNetMutableModuleExtension;
 import org.mustbe.consulo.microsoft.dotnet.sdk.MicrosoftDotNetSdkType;
-import org.mustbe.consulo.module.extension.ModuleExtensionLayerUtil;
 import org.mustbe.consulo.visualStudio.VisualStudioProjectProcessor;
 import com.intellij.openapi.fileTypes.FileType;
 import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.openapi.projectRoots.SdkTable;
+import com.intellij.openapi.roots.ModifiableModuleRootLayer;
 import com.intellij.openapi.roots.ModifiableRootModel;
 import com.intellij.openapi.util.JDOMUtil;
 import com.intellij.openapi.vfs.VirtualFile;
@@ -69,24 +63,13 @@ public class CsProjProcessor implements VisualStudioProjectProcessor
 	}
 
 	@Override
-	public void processFile(@NotNull VirtualFile projectFile, @NotNull ModifiableRootModel moduleWithSingleContent)
+	public void processFile(@NotNull VirtualFile projectFile, @NotNull ModifiableRootModel modifiableRootModel)
 	{
 		try
 		{
 			List<Sdk> sdks = SdkTable.getInstance().getSdksOfType(MicrosoftDotNetSdkType.getInstance());
 
 			Document document = JDOMUtil.loadDocument(projectFile.getInputStream());
-
-			MicrosoftDotNetMutableModuleExtension e = moduleWithSingleContent.getExtensionWithoutCheck
-					(MicrosoftDotNetMutableModuleExtension.class);
-			e.setEnabled(true);
-
-			moduleWithSingleContent.addModuleExtensionSdkEntry(e);
-
-			MicrosoftCSharpMutableModuleExtension c = moduleWithSingleContent.getExtensionWithoutCheck
-					(MicrosoftCSharpMutableModuleExtension.class);
-
-			c.setEnabled(true);
 
 			Map<String, PropertyGroup> groupMap = new LinkedHashMap<String, PropertyGroup>();
 			Element rootElement = document.getRootElement();
@@ -153,33 +136,31 @@ public class CsProjProcessor implements VisualStudioProjectProcessor
 				propertyGroup.putAll(own.get());
 			}
 
-			List<String> newList = new ArrayList<String>(e.getLayersList());
+			modifiableRootModel.removeLayer(ModifiableRootModel.DEFAULT_LAYER_NAME, false);
 
 			for(Map.Entry<String, PropertyGroup> groupEntry : groupMap.entrySet())
 			{
 				String key = groupEntry.getKey();
 				PropertyGroup value = groupEntry.getValue();
 
+				ModifiableModuleRootLayer layer = modifiableRootModel.addLayer(key, null, false);
 
-				if(newList.contains(key))
-				{
-					newList.remove(key);
-				}
-				else
-				{
-					ModuleExtensionLayerUtil.addLayerNoCommit(moduleWithSingleContent, key, DotNetModuleExtension.class);
-				}
+				MicrosoftDotNetMutableModuleExtension e = layer.getExtensionWithoutCheck(MicrosoftDotNetMutableModuleExtension.class);
+				assert e != null;
+				e.setEnabled(true);
 
-				MainConfigurationLayerImpl main = (MainConfigurationLayerImpl) e.getLayer(key);
-				CSharpConfigurationLayer csharp = (CSharpConfigurationLayer) c.getLayer(key);
+				MicrosoftCSharpMutableModuleExtension c = layer.getExtensionWithoutCheck(MicrosoftCSharpMutableModuleExtension.class);
+				assert c != null;
+				c.setEnabled(true);
 
-				main.setTarget(value.get(OutputType, DotNetTarget.EXECUTABLE));
-				main.setAllowDebugInfo(value.get(DebugSymbols, Boolean.TRUE));
-				csharp.setAllowUnsafeCode(value.get(AllowUnsafeBlocks, Boolean.TRUE));
+
+				e.setTarget(value.get(OutputType, DotNetTarget.EXECUTABLE));
+				e.setAllowDebugInfo(value.get(DebugSymbols, Boolean.TRUE));
+				c.setAllowUnsafeCode(value.get(AllowUnsafeBlocks, Boolean.TRUE));
 
 				List<String> list = value.get(DefineConstants, Collections.<String>emptyList());
-				main.getVariables().clear();
-				main.getVariables().addAll(list);
+				e.getVariables().clear();
+				e.getVariables().addAll(list);
 
 				String version = MicrosoftDotNetSdkType.removeFirstCharIfIsV(value.get(TargetFrameworkVersion, "v2"));
 
@@ -187,25 +168,22 @@ public class CsProjProcessor implements VisualStudioProjectProcessor
 				{
 					if(sdk.getVersionString().startsWith(version))
 					{
-						main.getInheritableSdk().set(null, sdk);
+						e.getInheritableSdk().set(null, sdk);
 						break;
 					}
 				}
 			}
 
-			for(String key : newList)
+			if(groupMap.isEmpty())
 			{
-				ModuleExtensionLayerUtil.removeLayerNoCommit(moduleWithSingleContent, key, DotNetModuleExtension.class);
+				modifiableRootModel.addLayer(ModifiableRootModel.DEFAULT_LAYER_NAME, null, true);
 			}
-
-			ModuleExtensionLayerUtil.setCurrentLayerNoCommit(moduleWithSingleContent, ContainerUtil.getFirstItem(groupMap.keySet()),
-					DotNetModuleExtension.class);
+			else
+			{
+				modifiableRootModel.setCurrentLayer(ContainerUtil.getFirstItem(groupMap.keySet()));
+			}
 		}
-		catch(JDOMException e)
-		{
-			LOGGER.error(e);
-		}
-		catch(IOException e)
+		catch(Exception e)
 		{
 			LOGGER.error(e);
 		}

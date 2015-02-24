@@ -102,8 +102,7 @@ public class VisualStudioImportBuilder extends ProjectImportBuilder<Object>
 
 		val modifiableModuleModel = old == null ? ModuleManager.getInstance(project).getModifiableModel() : old;
 
-		val mainModuleModel = createModuleWithSingleContent(parent.getName(), parent,
-				modifiableModuleModel);
+		val mainModuleModel = createModuleWithSingleContent(parent.getName() + " (Solution)", parent, modifiableModuleModel);
 		modules.add(mainModuleModel.getModule());
 		new WriteAction<Object>()
 		{
@@ -124,25 +123,24 @@ public class VisualStudioImportBuilder extends ProjectImportBuilder<Object>
 			}
 
 
-			val moduleWithSingleContent = createModuleWithSingleContent(projectFile.getNameWithoutExtension(),
+			val modifiableRootModel = createModuleWithSingleContent(projectFile.getNameWithoutExtension(),
 					projectFile.getParent(), modifiableModuleModel);
-			modules.add(moduleWithSingleContent.getModule());
+			modules.add(modifiableRootModel.getModule());
 			for(VisualStudioProjectProcessor processor : VisualStudioProjectProcessor.EP_NAME.getExtensions())
 			{
 				if(processor.getFileType() == projectFile.getFileType())
 				{
-					processor.processFile(projectFile, moduleWithSingleContent);
+					processor.processFile(projectFile, modifiableRootModel);
 					break;
 				}
 			}
 
 			new WriteAction<Object>()
 			{
-
 				@Override
 				protected void run(Result<Object> objectResult) throws Throwable
 				{
-					moduleWithSingleContent.commit();
+					modifiableRootModel.commit();
 				}
 			}.execute();
 		}

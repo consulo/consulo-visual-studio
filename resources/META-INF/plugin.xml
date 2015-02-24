@@ -19,6 +19,7 @@
 	<name>Visual Studio Importer</name>
 	<version>SNAPSHOT</version>
 	<vendor>Must-Be.org</vendor>
+	<depends>org.mustbe.consulo.dotnet.core</depends>
 	<depends optional="true">org.mustbe.consulo.microsoft.dotnet</depends>
 	<depends optional="true" config-file="CSharp.xml">org.mustbe.consulo.csharp</depends>
 
