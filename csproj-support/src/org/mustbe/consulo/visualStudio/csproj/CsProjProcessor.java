@@ -16,6 +16,7 @@
 
 package org.mustbe.consulo.visualStudio.csproj;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -25,8 +26,10 @@ import java.util.Map;
 import org.consulo.lombok.annotations.Logger;
 import org.jdom.Document;
 import org.jdom.Element;
+import org.jdom.Namespace;
 import org.jetbrains.annotations.NotNull;
 import org.mustbe.consulo.dotnet.DotNetTarget;
+import org.mustbe.consulo.dotnet.module.roots.DotNetLibraryOrderEntryImpl;
 import org.mustbe.consulo.microsoft.csharp.module.extension.MicrosoftCSharpMutableModuleExtension;
 import org.mustbe.consulo.microsoft.dotnet.module.extension.MicrosoftDotNetMutableModuleExtension;
 import org.mustbe.consulo.microsoft.dotnet.sdk.MicrosoftDotNetSdkType;
@@ -36,6 +39,7 @@ import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.openapi.projectRoots.SdkTable;
 import com.intellij.openapi.roots.ModifiableModuleRootLayer;
 import com.intellij.openapi.roots.ModifiableRootModel;
+import com.intellij.openapi.roots.impl.ModuleRootLayerImpl;
 import com.intellij.openapi.util.JDOMUtil;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.util.containers.ContainerUtil;
@@ -47,6 +51,8 @@ import com.intellij.util.containers.ContainerUtil;
 @Logger
 public class CsProjProcessor implements VisualStudioProjectProcessor
 {
+	private static final Namespace ourNamespace = Namespace.getNamespace("http://schemas.microsoft.com/developer/msbuild/2003");
+
 	private static final String ourParentName = CsProjProcessor.class.getName();
 	private static final String OutputType = "OutputType";
 	private static final String TargetFrameworkVersion = "TargetFrameworkVersion";
@@ -74,12 +80,18 @@ public class CsProjProcessor implements VisualStudioProjectProcessor
 			Map<String, PropertyGroup> groupMap = new LinkedHashMap<String, PropertyGroup>();
 			Element rootElement = document.getRootElement();
 
-			for(Element propertyGroup : rootElement.getChildren())
+			List<String> references = new ArrayList<String>();
+
+			for(Element group : rootElement.getChildren("ItemGroup", ourNamespace))
 			{
-				if(!"PropertyGroup".equals(propertyGroup.getName()))
+				for(Element ref : group.getChildren("Reference", ourNamespace))
 				{
-					continue;
+					references.add(ref.getAttributeValue("Include"));
 				}
+			}
+
+			for(Element propertyGroup : rootElement.getChildren("PropertyGroup", ourNamespace))
+			{
 				String cond = propertyGroup.getAttributeValue("Condition");
 				if(cond == null)
 				{
@@ -144,6 +156,7 @@ public class CsProjProcessor implements VisualStudioProjectProcessor
 				PropertyGroup value = groupEntry.getValue();
 
 				ModifiableModuleRootLayer layer = modifiableRootModel.addLayer(key, null, false);
+				layer.addContentEntry(projectFile.getParent());
 
 				MicrosoftDotNetMutableModuleExtension e = layer.getExtensionWithoutCheck(MicrosoftDotNetMutableModuleExtension.class);
 				assert e != null;
@@ -171,6 +184,11 @@ public class CsProjProcessor implements VisualStudioProjectProcessor
 						e.getInheritableSdk().set(null, sdk);
 						break;
 					}
+				}
+
+				for(String reference : references)
+				{
+					layer.addOrderEntry(new DotNetLibraryOrderEntryImpl((ModuleRootLayerImpl) layer, reference));
 				}
 			}
 
