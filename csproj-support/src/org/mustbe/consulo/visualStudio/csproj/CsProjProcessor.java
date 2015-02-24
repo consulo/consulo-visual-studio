@@ -168,14 +168,18 @@ public class CsProjProcessor implements VisualStudioProjectProcessor
 
 
 				e.setTarget(value.get(OutputType, DotNetTarget.EXECUTABLE));
-				e.setAllowDebugInfo(value.get(DebugSymbols, Boolean.TRUE));
-				c.setAllowUnsafeCode(value.get(AllowUnsafeBlocks, Boolean.TRUE));
+				e.setAllowDebugInfo(value.get(DebugSymbols, Boolean.FALSE));
+				c.setAllowUnsafeCode(value.get(AllowUnsafeBlocks, Boolean.FALSE));
 
 				List<String> list = value.get(DefineConstants, Collections.<String>emptyList());
 				e.getVariables().clear();
 				e.getVariables().addAll(list);
 
 				String version = MicrosoftDotNetSdkType.removeFirstCharIfIsV(value.get(TargetFrameworkVersion, "v2"));
+				if(version.equals("4.5"))
+				{
+					version = "4.0";
+				}
 
 				for(Sdk sdk : sdks)
 				{
