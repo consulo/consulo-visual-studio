@@ -105,7 +105,7 @@ public class CsProjProcessor implements VisualStudioProjectProcessor
 				PropertyGroup value = new PropertyGroup();
 				groupMap.put(cond, value);
 
-				String outputType = propertyGroup.getChildText(OutputType);
+				String outputType = propertyGroup.getChildText(OutputType, ourNamespace);
 				if("WinExe".equals(outputType))
 				{
 					value.put(OutputType, DotNetTarget.EXECUTABLE);
@@ -115,26 +115,26 @@ public class CsProjProcessor implements VisualStudioProjectProcessor
 					value.put(OutputType, DotNetTarget.LIBRARY);
 				}
 
-				String targetFrameworkVersion = propertyGroup.getChildText(TargetFrameworkVersion);
+				String targetFrameworkVersion = propertyGroup.getChildText(TargetFrameworkVersion, ourNamespace);
 				if(targetFrameworkVersion != null)
 				{
 					value.put(TargetFrameworkVersion, targetFrameworkVersion);
 				}
 
-				String defineConstants = propertyGroup.getChildText(DefineConstants);
+				String defineConstants = propertyGroup.getChildText(DefineConstants, ourNamespace);
 				if(defineConstants != null)
 				{
 					String[] split = defineConstants.split(";");
 					value.put(DefineConstants, Arrays.asList(split));
 				}
 
-				String debugSymbols = propertyGroup.getChildText(DebugSymbols);
+				String debugSymbols = propertyGroup.getChildText(DebugSymbols, ourNamespace);
 				if(debugSymbols != null)
 				{
 					value.put(DebugSymbols, Boolean.parseBoolean(debugSymbols));
 				}
 
-				String unsafeBlocks = propertyGroup.getChildText(AllowUnsafeBlocks);
+				String unsafeBlocks = propertyGroup.getChildText(AllowUnsafeBlocks, ourNamespace);
 				if(unsafeBlocks != null)
 				{
 					value.put(AllowUnsafeBlocks, Boolean.parseBoolean(unsafeBlocks));
