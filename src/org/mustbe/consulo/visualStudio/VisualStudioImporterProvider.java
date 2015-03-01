@@ -17,15 +17,10 @@
 package org.mustbe.consulo.visualStudio;
 
 import org.intellij.lang.annotations.Language;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import com.intellij.ide.util.newProjectWizard.ProjectNameStep;
-import com.intellij.ide.util.newProjectWizard.StepSequence;
-import com.intellij.ide.util.newProjectWizard.modes.WizardMode;
 import com.intellij.ide.util.projectWizard.ModuleWizardStep;
-import com.intellij.ide.util.projectWizard.ProjectBuilder;
 import com.intellij.ide.util.projectWizard.WizardContext;
-import com.intellij.openapi.roots.ui.configuration.ModulesProvider;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.projectImport.ProjectImportProvider;
@@ -48,49 +43,7 @@ public class VisualStudioImporterProvider extends ProjectImportProvider
 		assert fileByPath != null;
 		context.setProjectName(fileByPath.getNameWithoutExtension());
 		context.setProjectFileDirectory(fileByPath.getParent().getPath());
-		return new ModuleWizardStep[]{new ProjectNameStep(context, new WizardMode()
-		{
-			@NotNull
-			@Override
-			public String getDisplayName(WizardContext context)
-			{
-				return "test";
-			}
-
-			@NotNull
-			@Override
-			public String getDescription(WizardContext context)
-			{
-				return "Project";
-			}
-
-			@Override
-			public boolean isAvailable(WizardContext context)
-			{
-				return true;
-			}
-
-			@Nullable
-			@Override
-			protected StepSequence createSteps(
-					WizardContext context, @NotNull ModulesProvider modulesProvider)
-			{
-				return null;
-			}
-
-			@Nullable
-			@Override
-			public ProjectBuilder getModuleBuilder()
-			{
-				return myBuilder;
-			}
-
-			@Override
-			public void onChosen(boolean enabled)
-			{
-
-			}
-		})};
+		return new ModuleWizardStep[]{new ProjectNameStep(context, null)};
 	}
 
 	@Override
