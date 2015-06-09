@@ -14,11 +14,13 @@
  * limitations under the License.
  */
 
-package org.mustbe.consulo.visualStudio;
+package org.mustbe.consulo.visualStudio.importProvider;
 
 import org.intellij.lang.annotations.Language;
 import org.jetbrains.annotations.Nullable;
-import com.intellij.ide.util.newProjectWizard.ProjectNameStep;
+import org.mustbe.consulo.visualStudio.VisualStudioImportTarget;
+import org.mustbe.consulo.visualStudio.VisualStudioSolutionFileType;
+import org.mustbe.consulo.visualStudio.importProvider.ui.VisualStudioSetupTargetStep;
 import com.intellij.ide.util.projectWizard.ModuleWizardStep;
 import com.intellij.ide.util.projectWizard.WizardContext;
 import com.intellij.openapi.vfs.LocalFileSystem;
@@ -43,13 +45,15 @@ public class VisualStudioImporterProvider extends ProjectImportProvider
 		assert fileByPath != null;
 		context.setProjectName(fileByPath.getNameWithoutExtension());
 		context.setProjectFileDirectory(fileByPath.getParent().getPath());
-		return new ModuleWizardStep[]{new ProjectNameStep(context, null)};
+
+		return new ModuleWizardStep[]{new VisualStudioSetupTargetStep(context, null, fileByPath)};
 	}
 
 	@Override
 	protected boolean canImportFromFile(VirtualFile file)
 	{
-		return file.getFileType() == VisualStudioSolutionFileType.INSTANCE;
+		boolean isSolutionFile = file.getFileType() == VisualStudioSolutionFileType.INSTANCE;
+		return VisualStudioImportTarget.getAvailableTargets().length != 0 && isSolutionFile;
 	}
 
 	@Override

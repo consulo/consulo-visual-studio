@@ -14,13 +14,12 @@
  * limitations under the License.
  */
 
-package org.mustbe.consulo.visualStudio.csproj;
+package org.mustbe.consulo.visualStudio;
 
 import javax.swing.Icon;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.mustbe.consulo.visualStudio.VisualStudioIcons;
 import com.intellij.openapi.fileTypes.FileType;
 import com.intellij.openapi.vfs.VirtualFile;
 
@@ -28,29 +27,29 @@ import com.intellij.openapi.vfs.VirtualFile;
  * @author VISTALL
  * @since 27.03.14
  */
-public class CsProjFileType implements FileType
+public class VisualStudioProjectFileType implements FileType
 {
-	public static final CsProjFileType INSTANCE = new CsProjFileType();
+	public static final VisualStudioProjectFileType INSTANCE = new VisualStudioProjectFileType();
 
 	@NotNull
 	@Override
 	public String getName()
 	{
-		return "VISUAL_STUDIO_CSPROJ";
+		return "VISUAL_STUDIO_PROJECT";
 	}
 
 	@NotNull
 	@Override
 	public String getDescription()
 	{
-		return "Visual Studio C# project files";
+		return "Visual Studio project files";
 	}
 
 	@NotNull
 	@Override
 	public String getDefaultExtension()
 	{
-		return "csproj";
+		return "";
 	}
 
 	@Nullable

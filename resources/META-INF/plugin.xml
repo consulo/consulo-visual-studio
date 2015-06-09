@@ -19,16 +19,18 @@
 	<name>Visual Studio Importer</name>
 	<version>SNAPSHOT</version>
 	<vendor>Must-Be.org</vendor>
+	<category>Import</category>
 	<depends>org.mustbe.consulo.dotnet.core</depends>
-	<depends optional="true">org.mustbe.consulo.microsoft.dotnet</depends>
 	<depends optional="true" config-file="CSharp.xml">org.mustbe.consulo.csharp</depends>
 
 	<extensionPoints>
-		<extensionPoint name="projectProcessor" interface="org.mustbe.consulo.visualStudio.VisualStudioProjectProcessor" />
+		<extensionPoint name="languageImportProvider" beanClass="com.intellij.util.KeyedLazyInstanceEP">
+			<with attribute="implementationClass" implements="org.mustbe.consulo.visualStudio.VisualStudioLanguageImportProvider"/>
+		</extensionPoint>
 	</extensionPoints>
 
 	<extensions defaultExtensionNs="com.intellij">
-		<fileTypeFactory implementation="org.mustbe.consulo.visualStudio.VisualStudioFileTypeFactory" />
-		<projectImportProvider implementation="org.mustbe.consulo.visualStudio.VisualStudioImporterProvider" />
+		<fileTypeFactory implementation="org.mustbe.consulo.visualStudio.VisualStudioFileTypeFactory"/>
+		<projectImportProvider implementation="org.mustbe.consulo.visualStudio.importProvider.VisualStudioImporterProvider"/>
 	</extensions>
 </idea-plugin>

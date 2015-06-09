@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2014 must-be.org
+ * Copyright 2013-2015 must-be.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,24 +17,18 @@
 package org.mustbe.consulo.visualStudio;
 
 import org.jetbrains.annotations.NotNull;
-import com.intellij.openapi.fileTypes.FileTypeConsumer;
-import com.intellij.openapi.fileTypes.FileTypeFactory;
+import com.intellij.openapi.extensions.ExtensionPointName;
 import com.intellij.util.KeyedLazyInstanceEP;
 
 /**
  * @author VISTALL
- * @since 27.03.14
+ * @since 09.06.2015
  */
-public class VisualStudioFileTypeFactory extends FileTypeFactory
+public interface VisualStudioLanguageImportProvider
 {
-	@Override
-	public void createFileTypes(@NotNull FileTypeConsumer consumer)
-	{
-		consumer.consume(VisualStudioSolutionFileType.INSTANCE);
+	ExtensionPointName<KeyedLazyInstanceEP<VisualStudioLanguageImportProvider>> EP_NAME = ExtensionPointName.create("org.mustbe.consulo" +
+			".visualStudio.languageImportProvider");
 
-		for(KeyedLazyInstanceEP<VisualStudioLanguageImportProvider> ep : VisualStudioLanguageImportProvider.EP_NAME.getExtensions())
-		{
-			consumer.consume(VisualStudioProjectFileType.INSTANCE, ep.getKey());
-		}
-	}
+	@NotNull
+	String getLanguageModuleExtensionId(@NotNull VisualStudioImportTarget target);
 }

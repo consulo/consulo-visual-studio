@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2014 must-be.org
+ * Copyright 2013-2015 must-be.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,21 +17,25 @@
 package org.mustbe.consulo.visualStudio;
 
 import org.jetbrains.annotations.NotNull;
-import com.intellij.openapi.extensions.ExtensionPointName;
-import com.intellij.openapi.fileTypes.FileType;
-import com.intellij.openapi.roots.ModifiableRootModel;
-import com.intellij.openapi.vfs.VirtualFile;
 
 /**
  * @author VISTALL
- * @since 27.03.14
+ * @since 09.06.2015
  */
-public interface VisualStudioProjectProcessor
+public class CSharpVisualStudioLanguageImportProvider implements VisualStudioLanguageImportProvider
 {
-	ExtensionPointName<VisualStudioProjectProcessor> EP_NAME = ExtensionPointName.create("org.mustbe.consulo.visualStudio.projectProcessor");
-
 	@NotNull
-	FileType getFileType();
-
-	void processFile(@NotNull VirtualFile projectFile, @NotNull ModifiableRootModel moduleWithSingleContent);
+	@Override
+	public String getLanguageModuleExtensionId(@NotNull VisualStudioImportTarget target)
+	{
+		switch(target)
+		{
+			case _NET:
+				return "microsoft-csharp";
+			case Mono:
+				return "mono-csharp";
+			default:
+				throw new UnsupportedOperationException(target + " is not supported by C#");
+		}
+	}
 }

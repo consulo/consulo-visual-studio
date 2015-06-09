@@ -16,6 +16,6 @@
 
 <idea-plugin>
 	<extensions defaultExtensionNs="org.mustbe.consulo.visualStudio">
-		<projectProcessor implementation="org.mustbe.consulo.visualStudio.csproj.CsProjProcessor" />
+		<languageImportProvider key="csproj" implementationClass="org.mustbe.consulo.visualStudio.CSharpVisualStudioLanguageImportProvider" />
 	</extensions>
 </idea-plugin>

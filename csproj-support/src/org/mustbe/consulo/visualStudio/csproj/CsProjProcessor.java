@@ -23,6 +23,10 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.bromix.msbuild.Item;
+import org.bromix.msbuild.ItemGroup;
+import org.bromix.msbuild.MSBuildReader;
+import org.bromix.msbuild.Project;
 import org.consulo.lombok.annotations.Logger;
 import org.jdom.Document;
 import org.jdom.Element;
@@ -33,7 +37,7 @@ import org.mustbe.consulo.dotnet.module.roots.DotNetLibraryOrderEntryImpl;
 import org.mustbe.consulo.microsoft.csharp.module.extension.MicrosoftCSharpMutableModuleExtension;
 import org.mustbe.consulo.microsoft.dotnet.module.extension.MicrosoftDotNetMutableModuleExtension;
 import org.mustbe.consulo.microsoft.dotnet.sdk.MicrosoftDotNetSdkType;
-import org.mustbe.consulo.visualStudio.VisualStudioProjectProcessor;
+import org.mustbe.consulo.visualStudio.VisualStudioProjectFileType;
 import com.intellij.openapi.fileTypes.FileType;
 import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.openapi.projectRoots.SdkTable;
@@ -49,7 +53,8 @@ import com.intellij.util.containers.ContainerUtil;
  * @since 27.03.14
  */
 @Logger
-public class CsProjProcessor implements VisualStudioProjectProcessor
+@Deprecated
+public class CsProjProcessor
 {
 	private static final Namespace ourNamespace = Namespace.getNamespace("http://schemas.microsoft.com/developer/msbuild/2003");
 
@@ -62,17 +67,18 @@ public class CsProjProcessor implements VisualStudioProjectProcessor
 
 
 	@NotNull
-	@Override
 	public FileType getFileType()
 	{
-		return CsProjFileType.INSTANCE;
+		return VisualStudioProjectFileType.INSTANCE;
 	}
 
-	@Override
 	public void processFile(@NotNull VirtualFile projectFile, @NotNull ModifiableRootModel modifiableRootModel)
 	{
+		MSBuildReader reader = new MSBuildReader();
 		try
 		{
+			Project project = reader.readProject(projectFile.getInputStream());
+
 			List<Sdk> sdks = SdkTable.getInstance().getSdksOfType(MicrosoftDotNetSdkType.getInstance());
 
 			Document document = JDOMUtil.loadDocument(projectFile.getInputStream());
@@ -81,6 +87,20 @@ public class CsProjProcessor implements VisualStudioProjectProcessor
 			Element rootElement = document.getRootElement();
 
 			List<String> references = new ArrayList<String>();
+			for(org.bromix.msbuild.Element element : project.getChildren())
+			{
+				if(element instanceof ItemGroup)
+				{
+					List<org.bromix.msbuild.Element> children = ((ItemGroup) element).getChildren();
+					for(org.bromix.msbuild.Element child : children)
+					{
+						if(child instanceof Item && "Reference".equals(child.getElementName()))
+						{
+							references.add(((Item) child).getInclude());
+						}
+					}
+				}
+			}
 
 			for(Element group : rootElement.getChildren("ItemGroup", ourNamespace))
 			{
@@ -175,20 +195,20 @@ public class CsProjProcessor implements VisualStudioProjectProcessor
 				e.getVariables().clear();
 				e.getVariables().addAll(list);
 
-				String version = MicrosoftDotNetSdkType.removeFirstCharIfIsV(value.get(TargetFrameworkVersion, "v2"));
+				/*String version = MicrosoftDotNetSdkType.removeFirstCharIfIsV(value.get(TargetFrameworkVersion, "v2"));
 				if(version.equals("4.5"))
 				{
 					version = "4.0";
-				}
+				}  */
 
-				for(Sdk sdk : sdks)
+			/*	for(Sdk sdk : sdks)
 				{
 					if(sdk.getVersionString().startsWith(version))
 					{
 						e.getInheritableSdk().set(null, sdk);
 						break;
 					}
-				}
+				}  */
 
 				for(String reference : references)
 				{
