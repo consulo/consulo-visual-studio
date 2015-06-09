@@ -213,8 +213,6 @@ public class VisualStudioImportBuilder extends ProjectImportBuilder<Object>
 					return sdk.isPredefined() ? 100 : 0;
 				}
 			});
-
-			System.out.println("test");
 		}
 
 		VisualStudioProjectInfo projectInfo = importItem.getProjectInfo();

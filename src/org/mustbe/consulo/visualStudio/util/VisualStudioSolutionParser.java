@@ -91,11 +91,15 @@ public class VisualStudioSolutionParser
 		try
 		{
 			File projectFile = new File(file.getParent(), relativePath);
+			if(projectFile.isDirectory() || !projectFile.exists())
+			{
+				return;
+			}
 			builder.add(new VisualStudioProjectInfo(name, projectFile, new MSBuildReader().readProject(projectFile)));
 		}
 		catch(ProjectIOException e)
 		{
-			throw new ParseErrorException(e);
+			e.printStackTrace();
 		}
 	}
 }
