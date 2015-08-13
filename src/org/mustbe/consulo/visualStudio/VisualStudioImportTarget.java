@@ -20,8 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.consulo.lombok.annotations.ArrayFactoryFields;
-import org.consulo.module.extension.ModuleExtensionProviderEP;
 import org.jetbrains.annotations.NotNull;
+import org.mustbe.consulo.module.extension.ModuleExtensionProviderEP;
 import com.intellij.util.containers.ContainerUtil;
 
 /**
