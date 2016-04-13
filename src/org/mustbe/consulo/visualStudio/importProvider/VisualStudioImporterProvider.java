@@ -23,6 +23,7 @@ import org.mustbe.consulo.visualStudio.VisualStudioSolutionFileType;
 import org.mustbe.consulo.visualStudio.importProvider.ui.VisualStudioSetupTargetStep;
 import com.intellij.ide.util.projectWizard.ModuleWizardStep;
 import com.intellij.ide.util.projectWizard.WizardContext;
+import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.projectImport.ProjectImportProvider;
@@ -50,9 +51,9 @@ public class VisualStudioImporterProvider extends ProjectImportProvider
 	}
 
 	@Override
-	protected boolean canImportFromFile(VirtualFile file)
+	public boolean canImport(VirtualFile fileOrDirectory, @Nullable Project project)
 	{
-		boolean isSolutionFile = file.getFileType() == VisualStudioSolutionFileType.INSTANCE;
+		boolean isSolutionFile = fileOrDirectory.getFileType() == VisualStudioSolutionFileType.INSTANCE;
 		return VisualStudioImportTarget.getAvailableTargets().length != 0 && isSolutionFile;
 	}
 

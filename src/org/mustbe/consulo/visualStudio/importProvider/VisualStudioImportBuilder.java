@@ -234,6 +234,8 @@ public class VisualStudioImportBuilder extends ProjectImportBuilder<Object>
 			}
 		}
 
+		layer.addOrderEntry(new DotNetLibraryOrderEntryImpl((ModuleRootLayerImpl) layer, "mscorlib"));
+
 		org.bromix.msbuild.Project project = projectInfo.getProject();
 		for(org.bromix.msbuild.Element element : project.getChildren())
 		{
