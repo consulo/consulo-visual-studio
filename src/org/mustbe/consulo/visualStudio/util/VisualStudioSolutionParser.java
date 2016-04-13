@@ -28,6 +28,7 @@ import com.google.common.base.Charsets;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
 import com.google.common.io.Files;
+import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.openapi.vfs.VfsUtil;
 import com.intellij.openapi.vfs.VirtualFile;
 
@@ -90,7 +91,7 @@ public class VisualStudioSolutionParser
 		String relativePath = matcher.group(2);
 		try
 		{
-			File projectFile = new File(file.getParent(), relativePath);
+			File projectFile = new File(file.getParent(), FileUtil.toSystemDependentName(relativePath));
 			if(projectFile.isDirectory() || !projectFile.exists())
 			{
 				return;

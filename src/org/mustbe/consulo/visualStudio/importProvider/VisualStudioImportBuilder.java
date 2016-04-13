@@ -51,6 +51,7 @@ import com.intellij.openapi.roots.ModifiableRootModel;
 import com.intellij.openapi.roots.ModuleRootManager;
 import com.intellij.openapi.roots.impl.ModuleRootLayerImpl;
 import com.intellij.openapi.roots.ui.configuration.ModulesProvider;
+import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.openapi.util.io.FileUtilRt;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
@@ -253,7 +254,7 @@ public class VisualStudioImportBuilder extends ProjectImportBuilder<Object>
 						}
 						else if("Compile".equals(name))
 						{
-							File contentFile = new File(file.getParent(), ((Item) child).getInclude());
+							File contentFile = new File(file.getParent(), FileUtil.toSystemDependentName(((Item) child).getInclude()));
 							VirtualFile contentVirtualFile = LocalFileSystem.getInstance().findFileByIoFile(contentFile);
 							if(contentVirtualFile != null)
 							{
