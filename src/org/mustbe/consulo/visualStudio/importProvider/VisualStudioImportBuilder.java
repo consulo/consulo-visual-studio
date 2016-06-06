@@ -30,7 +30,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.mustbe.consulo.RequiredReadAction;
 import org.mustbe.consulo.dotnet.module.extension.DotNetMutableModuleExtension;
-import org.mustbe.consulo.dotnet.module.roots.DotNetLibraryOrderEntryImpl;
 import org.mustbe.consulo.visualStudio.VisualStudioIcons;
 import org.mustbe.consulo.visualStudio.VisualStudioImportTarget;
 import org.mustbe.consulo.visualStudio.VisualStudioLanguageImportProvider;
@@ -59,6 +58,7 @@ import com.intellij.packaging.artifacts.ModifiableArtifactModel;
 import com.intellij.projectImport.ProjectImportBuilder;
 import com.intellij.util.KeyedLazyInstanceEP;
 import com.intellij.util.containers.ContainerUtil;
+import consulo.dotnet.roots.orderEntry.DotNetLibraryOrderEntryImpl;
 
 /**
  * @author VISTALL

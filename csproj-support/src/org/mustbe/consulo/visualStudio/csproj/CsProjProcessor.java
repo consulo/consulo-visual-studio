@@ -33,7 +33,6 @@ import org.jdom.Element;
 import org.jdom.Namespace;
 import org.jetbrains.annotations.NotNull;
 import org.mustbe.consulo.dotnet.DotNetTarget;
-import org.mustbe.consulo.dotnet.module.roots.DotNetLibraryOrderEntryImpl;
 import org.mustbe.consulo.microsoft.csharp.module.extension.MicrosoftCSharpMutableModuleExtension;
 import org.mustbe.consulo.microsoft.dotnet.module.extension.MicrosoftDotNetMutableModuleExtension;
 import org.mustbe.consulo.microsoft.dotnet.sdk.MicrosoftDotNetSdkType;
@@ -47,6 +46,7 @@ import com.intellij.openapi.roots.impl.ModuleRootLayerImpl;
 import com.intellij.openapi.util.JDOMUtil;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.util.containers.ContainerUtil;
+import consulo.dotnet.roots.orderEntry.DotNetLibraryOrderEntryImpl;
 
 /**
  * @author VISTALL
