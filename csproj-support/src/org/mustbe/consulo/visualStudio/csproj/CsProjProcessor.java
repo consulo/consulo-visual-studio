@@ -27,7 +27,6 @@ import org.bromix.msbuild.Item;
 import org.bromix.msbuild.ItemGroup;
 import org.bromix.msbuild.MSBuildReader;
 import org.bromix.msbuild.Project;
-import org.consulo.lombok.annotations.Logger;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.Namespace;
@@ -47,6 +46,7 @@ import com.intellij.openapi.util.JDOMUtil;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.util.containers.ContainerUtil;
 import consulo.dotnet.roots.orderEntry.DotNetLibraryOrderEntryImpl;
+import consulo.lombok.annotations.Logger;
 
 /**
  * @author VISTALL
