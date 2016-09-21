@@ -15,7 +15,7 @@
   -->
 
 <idea-plugin>
-	<extensions defaultExtensionNs="org.mustbe.consulo.visualStudio">
-		<languageImportProvider key="csproj" implementationClass="org.mustbe.consulo.visualStudio.CSharpVisualStudioLanguageImportProvider" />
+	<extensions defaultExtensionNs="consulo.visualStudio">
+		<languageImportProvider key="csproj" implementationClass="consulo.visualStudio.CSharpVisualStudioLanguageImportProvider" />
 	</extensions>
 </idea-plugin>

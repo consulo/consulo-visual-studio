@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.mustbe.consulo.visualStudio.importProvider;
+package consulo.visualStudio.importProvider;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -25,16 +25,13 @@ import javax.swing.Icon;
 
 import org.bromix.msbuild.Item;
 import org.bromix.msbuild.ItemGroup;
-import org.consulo.module.extension.MutableModuleExtension;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.mustbe.consulo.RequiredReadAction;
-import org.mustbe.consulo.dotnet.module.extension.DotNetMutableModuleExtension;
-import org.mustbe.consulo.visualStudio.VisualStudioIcons;
-import org.mustbe.consulo.visualStudio.VisualStudioImportTarget;
-import org.mustbe.consulo.visualStudio.VisualStudioLanguageImportProvider;
-import org.mustbe.consulo.visualStudio.util.VisualStudioProjectInfo;
-import org.mustbe.consulo.visualStudio.util.VisualStudioSolutionParser;
+import consulo.visualStudio.VisualStudioIcons;
+import consulo.visualStudio.VisualStudioImportTarget;
+import consulo.visualStudio.VisualStudioLanguageImportProvider;
+import consulo.visualStudio.util.VisualStudioProjectInfo;
+import consulo.visualStudio.util.VisualStudioSolutionParser;
 import com.intellij.openapi.application.Result;
 import com.intellij.openapi.application.WriteAction;
 import com.intellij.openapi.module.ModifiableModuleModel;
@@ -45,10 +42,8 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.openapi.projectRoots.SdkTable;
 import com.intellij.openapi.projectRoots.SdkType;
-import com.intellij.openapi.roots.ModifiableModuleRootLayer;
 import com.intellij.openapi.roots.ModifiableRootModel;
 import com.intellij.openapi.roots.ModuleRootManager;
-import com.intellij.openapi.roots.impl.ModuleRootLayerImpl;
 import com.intellij.openapi.roots.ui.configuration.ModulesProvider;
 import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.openapi.util.io.FileUtilRt;
@@ -58,7 +53,12 @@ import com.intellij.packaging.artifacts.ModifiableArtifactModel;
 import com.intellij.projectImport.ProjectImportBuilder;
 import com.intellij.util.KeyedLazyInstanceEP;
 import com.intellij.util.containers.ContainerUtil;
+import consulo.annotations.RequiredReadAction;
+import consulo.dotnet.module.extension.DotNetMutableModuleExtension;
 import consulo.dotnet.roots.orderEntry.DotNetLibraryOrderEntryImpl;
+import consulo.module.extension.MutableModuleExtension;
+import consulo.roots.ModifiableModuleRootLayer;
+import consulo.roots.impl.ModuleRootLayerImpl;
 
 /**
  * @author VISTALL

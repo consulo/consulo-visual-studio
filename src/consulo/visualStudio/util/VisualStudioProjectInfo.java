@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2014 must-be.org
+ * Copyright 2013-2015 must-be.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,17 +14,41 @@
  * limitations under the License.
  */
 
-package org.mustbe.consulo.visualStudio;
+package consulo.visualStudio.util;
 
-import javax.swing.Icon;
+import java.io.File;
 
-import com.intellij.openapi.util.IconLoader;
+import org.bromix.msbuild.Project;
 
 /**
  * @author VISTALL
- * @since 10.02.14
+ * @since 09.06.2015
  */
-public interface VisualStudioIcons
+public class VisualStudioProjectInfo
 {
-	Icon VisualStudio = IconLoader.findIcon("/icons/visualStudio.png");
+	private String myName;
+	private File myFile;
+	private Project myProject;
+
+	public VisualStudioProjectInfo(String name, File file, Project project)
+	{
+		myName = name;
+		myFile = file;
+		myProject = project;
+	}
+
+	public String getName()
+	{
+		return myName;
+	}
+
+	public File getFile()
+	{
+		return myFile;
+	}
+
+	public Project getProject()
+	{
+		return myProject;
+	}
 }

@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package org.mustbe.consulo.visualStudio.importProvider;
+package consulo.visualStudio.importProvider;
 
 import org.intellij.lang.annotations.Language;
 import org.jetbrains.annotations.Nullable;
-import org.mustbe.consulo.visualStudio.VisualStudioImportTarget;
-import org.mustbe.consulo.visualStudio.VisualStudioSolutionFileType;
-import org.mustbe.consulo.visualStudio.importProvider.ui.VisualStudioSetupTargetStep;
+import consulo.visualStudio.VisualStudioImportTarget;
+import consulo.visualStudio.VisualStudioSolutionFileType;
+import consulo.visualStudio.importProvider.ui.VisualStudioSetupTargetStep;
 import com.intellij.ide.util.projectWizard.ModuleWizardStep;
 import com.intellij.ide.util.projectWizard.WizardContext;
 import com.intellij.openapi.project.Project;

@@ -14,41 +14,21 @@
  * limitations under the License.
  */
 
-package org.mustbe.consulo.visualStudio.util;
+package consulo.visualStudio;
 
-import java.io.File;
-
-import org.bromix.msbuild.Project;
+import org.jetbrains.annotations.NotNull;
+import com.intellij.openapi.extensions.ExtensionPointName;
+import com.intellij.util.KeyedLazyInstanceEP;
 
 /**
  * @author VISTALL
  * @since 09.06.2015
  */
-public class VisualStudioProjectInfo
+public interface VisualStudioLanguageImportProvider
 {
-	private String myName;
-	private File myFile;
-	private Project myProject;
+	ExtensionPointName<KeyedLazyInstanceEP<VisualStudioLanguageImportProvider>> EP_NAME = ExtensionPointName.create("org.mustbe.consulo" +
+			".visualStudio.languageImportProvider");
 
-	public VisualStudioProjectInfo(String name, File file, Project project)
-	{
-		myName = name;
-		myFile = file;
-		myProject = project;
-	}
-
-	public String getName()
-	{
-		return myName;
-	}
-
-	public File getFile()
-	{
-		return myFile;
-	}
-
-	public Project getProject()
-	{
-		return myProject;
-	}
+	@NotNull
+	String getLanguageModuleExtensionId(@NotNull VisualStudioImportTarget target);
 }

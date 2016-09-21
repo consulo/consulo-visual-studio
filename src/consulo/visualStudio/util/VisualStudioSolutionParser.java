@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.mustbe.consulo.visualStudio.util;
+package consulo.visualStudio.util;
 
 import java.io.File;
 import java.io.IOException;

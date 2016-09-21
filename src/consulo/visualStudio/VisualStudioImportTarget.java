@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-package org.mustbe.consulo.visualStudio;
+package consulo.visualStudio;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.jetbrains.annotations.NotNull;
-import org.mustbe.consulo.module.extension.ModuleExtensionProviderEP;
 import com.intellij.util.containers.ContainerUtil;
 import consulo.lombok.annotations.ArrayFactoryFields;
+import consulo.module.extension.ModuleExtensionProviderEP;
 
 /**
  * @author VISTALL

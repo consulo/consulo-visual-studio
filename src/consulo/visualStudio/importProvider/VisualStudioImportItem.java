@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package org.mustbe.consulo.visualStudio.importProvider;
+package consulo.visualStudio.importProvider;
 
-import org.mustbe.consulo.visualStudio.VisualStudioImportTarget;
-import org.mustbe.consulo.visualStudio.util.VisualStudioProjectInfo;
+import consulo.visualStudio.VisualStudioImportTarget;
+import consulo.visualStudio.util.VisualStudioProjectInfo;
 
 /**
 * @author VISTALL

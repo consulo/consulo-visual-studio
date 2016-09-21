@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.mustbe.consulo.visualStudio.csproj;
+package consulo.visualStudio.csproj;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,22 +31,22 @@ import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.Namespace;
 import org.jetbrains.annotations.NotNull;
-import org.mustbe.consulo.dotnet.DotNetTarget;
-import org.mustbe.consulo.microsoft.csharp.module.extension.MicrosoftCSharpMutableModuleExtension;
-import org.mustbe.consulo.microsoft.dotnet.module.extension.MicrosoftDotNetMutableModuleExtension;
-import org.mustbe.consulo.microsoft.dotnet.sdk.MicrosoftDotNetSdkType;
-import org.mustbe.consulo.visualStudio.VisualStudioProjectFileType;
+import consulo.visualStudio.VisualStudioProjectFileType;
 import com.intellij.openapi.fileTypes.FileType;
 import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.openapi.projectRoots.SdkTable;
-import com.intellij.openapi.roots.ModifiableModuleRootLayer;
 import com.intellij.openapi.roots.ModifiableRootModel;
-import com.intellij.openapi.roots.impl.ModuleRootLayerImpl;
 import com.intellij.openapi.util.JDOMUtil;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.util.containers.ContainerUtil;
+import consulo.dotnet.DotNetTarget;
 import consulo.dotnet.roots.orderEntry.DotNetLibraryOrderEntryImpl;
 import consulo.lombok.annotations.Logger;
+import consulo.microsoft.csharp.module.extension.MicrosoftCSharpMutableModuleExtension;
+import consulo.microsoft.dotnet.module.extension.MicrosoftDotNetMutableModuleExtension;
+import consulo.microsoft.dotnet.sdk.MicrosoftDotNetSdkType;
+import consulo.roots.ModifiableModuleRootLayer;
+import consulo.roots.impl.ModuleRootLayerImpl;
 
 /**
  * @author VISTALL
@@ -227,7 +227,7 @@ public class CsProjProcessor
 		}
 		catch(Exception e)
 		{
-			LOGGER.error(e);
+			CsProjProcessor.LOGGER.error(e);
 		}
 	}
 }

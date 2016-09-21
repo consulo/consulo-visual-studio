@@ -14,38 +14,17 @@
  * limitations under the License.
  */
 
-package org.mustbe.consulo.visualStudio.csproj;
+package consulo.visualStudio;
 
-import java.util.HashMap;
-import java.util.Map;
+import javax.swing.Icon;
+
+import com.intellij.openapi.util.IconLoader;
 
 /**
  * @author VISTALL
- * @since 27.03.14
+ * @since 10.02.14
  */
-public class PropertyGroup
+public interface VisualStudioIcons
 {
-	private final Map<String, Object> myData = new HashMap<String, Object>();
-
-	public void putAll(Map<String, Object> map)
-	{
-		myData.putAll(map);
-	}
-
-	public void put(String key, Object value)
-	{
-		myData.put(key, value);
-	}
-
-	@SuppressWarnings("unchecked")
-	public <T> T get(String key, T defaultValue)
-	{
-		Object o = myData.get(key);
-		return o == null ? defaultValue : (T) o;
-	}
-
-	public Map<String, Object> get()
-	{
-		return myData;
-	}
+	Icon VisualStudio = IconLoader.findIcon("/icons/visualStudio.png");
 }

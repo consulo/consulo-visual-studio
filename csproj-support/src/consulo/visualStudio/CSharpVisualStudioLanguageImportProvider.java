@@ -14,21 +14,28 @@
  * limitations under the License.
  */
 
-package org.mustbe.consulo.visualStudio;
+package consulo.visualStudio;
 
 import org.jetbrains.annotations.NotNull;
-import com.intellij.openapi.extensions.ExtensionPointName;
-import com.intellij.util.KeyedLazyInstanceEP;
 
 /**
  * @author VISTALL
  * @since 09.06.2015
  */
-public interface VisualStudioLanguageImportProvider
+public class CSharpVisualStudioLanguageImportProvider implements VisualStudioLanguageImportProvider
 {
-	ExtensionPointName<KeyedLazyInstanceEP<VisualStudioLanguageImportProvider>> EP_NAME = ExtensionPointName.create("org.mustbe.consulo" +
-			".visualStudio.languageImportProvider");
-
 	@NotNull
-	String getLanguageModuleExtensionId(@NotNull VisualStudioImportTarget target);
+	@Override
+	public String getLanguageModuleExtensionId(@NotNull VisualStudioImportTarget target)
+	{
+		switch(target)
+		{
+			case _NET:
+				return "microsoft-csharp";
+			case Mono:
+				return "mono-csharp";
+			default:
+				throw new UnsupportedOperationException(target + " is not supported by C#");
+		}
+	}
 }

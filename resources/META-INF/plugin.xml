@@ -15,22 +15,22 @@
   -->
 
 <idea-plugin>
-	<id>org.mustbe.consulo.visualStudio</id>
+	<id>consulo.visualStudio</id>
 	<name>Visual Studio Importer</name>
 	<version>SNAPSHOT</version>
-	<vendor>Must-Be.org</vendor>
+	<vendor>consulo.io</vendor>
 	<category>Import</category>
-	<depends>org.mustbe.consulo.dotnet.core</depends>
-	<depends optional="true" config-file="CSharp.xml">org.mustbe.consulo.csharp</depends>
+	<depends>consulo.dotnet</depends>
+	<depends optional="true" config-file="consulo-csharp.xml">consulo.csharp</depends>
 
 	<extensionPoints>
 		<extensionPoint name="languageImportProvider" beanClass="com.intellij.util.KeyedLazyInstanceEP">
-			<with attribute="implementationClass" implements="org.mustbe.consulo.visualStudio.VisualStudioLanguageImportProvider"/>
+			<with attribute="implementationClass" implements="consulo.visualStudio.VisualStudioLanguageImportProvider"/>
 		</extensionPoint>
 	</extensionPoints>
 
 	<extensions defaultExtensionNs="com.intellij">
-		<fileTypeFactory implementation="org.mustbe.consulo.visualStudio.VisualStudioFileTypeFactory"/>
-		<projectImportProvider implementation="org.mustbe.consulo.visualStudio.importProvider.VisualStudioImporterProvider"/>
+		<fileTypeFactory implementation="consulo.visualStudio.VisualStudioFileTypeFactory"/>
+		<projectImportProvider implementation="consulo.visualStudio.importProvider.VisualStudioImporterProvider"/>
 	</extensions>
 </idea-plugin>

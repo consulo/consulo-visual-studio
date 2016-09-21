@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.mustbe.consulo.visualStudio;
+package consulo.visualStudio;
 
 import javax.swing.Icon;
 

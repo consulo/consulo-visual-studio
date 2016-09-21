@@ -14,27 +14,38 @@
  * limitations under the License.
  */
 
-package org.mustbe.consulo.visualStudio;
+package consulo.visualStudio.csproj;
 
-import org.jetbrains.annotations.NotNull;
-import com.intellij.openapi.fileTypes.FileTypeConsumer;
-import com.intellij.openapi.fileTypes.FileTypeFactory;
-import com.intellij.util.KeyedLazyInstanceEP;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author VISTALL
  * @since 27.03.14
  */
-public class VisualStudioFileTypeFactory extends FileTypeFactory
+public class PropertyGroup
 {
-	@Override
-	public void createFileTypes(@NotNull FileTypeConsumer consumer)
-	{
-		consumer.consume(VisualStudioSolutionFileType.INSTANCE);
+	private final Map<String, Object> myData = new HashMap<String, Object>();
 
-		for(KeyedLazyInstanceEP<VisualStudioLanguageImportProvider> ep : VisualStudioLanguageImportProvider.EP_NAME.getExtensions())
-		{
-			consumer.consume(VisualStudioProjectFileType.INSTANCE, ep.getKey());
-		}
+	public void putAll(Map<String, Object> map)
+	{
+		myData.putAll(map);
+	}
+
+	public void put(String key, Object value)
+	{
+		myData.put(key, value);
+	}
+
+	@SuppressWarnings("unchecked")
+	public <T> T get(String key, T defaultValue)
+	{
+		Object o = myData.get(key);
+		return o == null ? defaultValue : (T) o;
+	}
+
+	public Map<String, Object> get()
+	{
+		return myData;
 	}
 }

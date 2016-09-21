@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2015 must-be.org
+ * Copyright 2013-2014 must-be.org
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,28 +14,27 @@
  * limitations under the License.
  */
 
-package org.mustbe.consulo.visualStudio;
+package consulo.visualStudio;
 
 import org.jetbrains.annotations.NotNull;
+import com.intellij.openapi.fileTypes.FileTypeConsumer;
+import com.intellij.openapi.fileTypes.FileTypeFactory;
+import com.intellij.util.KeyedLazyInstanceEP;
 
 /**
  * @author VISTALL
- * @since 09.06.2015
+ * @since 27.03.14
  */
-public class CSharpVisualStudioLanguageImportProvider implements VisualStudioLanguageImportProvider
+public class VisualStudioFileTypeFactory extends FileTypeFactory
 {
-	@NotNull
 	@Override
-	public String getLanguageModuleExtensionId(@NotNull VisualStudioImportTarget target)
+	public void createFileTypes(@NotNull FileTypeConsumer consumer)
 	{
-		switch(target)
+		consumer.consume(VisualStudioSolutionFileType.INSTANCE);
+
+		for(KeyedLazyInstanceEP<VisualStudioLanguageImportProvider> ep : VisualStudioLanguageImportProvider.EP_NAME.getExtensions())
 		{
-			case _NET:
-				return "microsoft-csharp";
-			case Mono:
-				return "mono-csharp";
-			default:
-				throw new UnsupportedOperationException(target + " is not supported by C#");
+			consumer.consume(VisualStudioProjectFileType.INSTANCE, ep.getKey());
 		}
 	}
 }

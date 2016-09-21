@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.mustbe.consulo.visualStudio.importProvider.ui;
+package consulo.visualStudio.importProvider.ui;
 
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
@@ -25,9 +25,9 @@ import javax.swing.table.TableCellEditor;
 
 import org.jdesktop.swingx.autocomplete.ComboBoxCellEditor;
 import org.jetbrains.annotations.Nullable;
-import org.mustbe.consulo.visualStudio.VisualStudioImportTarget;
-import org.mustbe.consulo.visualStudio.importProvider.VisualStudioImportBuilder;
-import org.mustbe.consulo.visualStudio.importProvider.VisualStudioImportItem;
+import consulo.visualStudio.VisualStudioImportTarget;
+import consulo.visualStudio.importProvider.VisualStudioImportBuilder;
+import consulo.visualStudio.importProvider.VisualStudioImportItem;
 import com.intellij.ide.util.newProjectWizard.ProjectNameStep;
 import com.intellij.ide.util.newProjectWizard.modes.WizardMode;
 import com.intellij.ide.util.projectWizard.WizardContext;
