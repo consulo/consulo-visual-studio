@@ -20,19 +20,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jetbrains.annotations.NotNull;
+import com.intellij.util.ArrayFactory;
 import com.intellij.util.containers.ContainerUtil;
-import consulo.lombok.annotations.ArrayFactoryFields;
 import consulo.module.extension.ModuleExtensionProviderEP;
 
 /**
  * @author VISTALL
  * @since 09.06.2015
  */
-@ArrayFactoryFields
 public enum VisualStudioImportTarget
 {
 	_NET("microsoft-dotnet"),
 	Mono("mono-dotnet");
+
+	public static final VisualStudioImportTarget[] EMPTY_ARRAY = new VisualStudioImportTarget[0];
+
+	public static ArrayFactory<VisualStudioImportTarget> ARRAY_FACTORY = count -> count == 0 ? EMPTY_ARRAY : new VisualStudioImportTarget[count];
 
 	private final String myPresentableName;
 	private final String myFrameworkExtensionId;

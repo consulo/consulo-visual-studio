@@ -31,7 +31,7 @@ import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.Namespace;
 import org.jetbrains.annotations.NotNull;
-import consulo.visualStudio.VisualStudioProjectFileType;
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.fileTypes.FileType;
 import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.openapi.projectRoots.SdkTable;
@@ -41,21 +41,22 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.util.containers.ContainerUtil;
 import consulo.dotnet.DotNetTarget;
 import consulo.dotnet.roots.orderEntry.DotNetLibraryOrderEntryImpl;
-import consulo.lombok.annotations.Logger;
 import consulo.microsoft.csharp.module.extension.MicrosoftCSharpMutableModuleExtension;
 import consulo.microsoft.dotnet.module.extension.MicrosoftDotNetMutableModuleExtension;
 import consulo.microsoft.dotnet.sdk.MicrosoftDotNetSdkType;
 import consulo.roots.ModifiableModuleRootLayer;
 import consulo.roots.impl.ModuleRootLayerImpl;
+import consulo.visualStudio.VisualStudioProjectFileType;
 
 /**
  * @author VISTALL
  * @since 27.03.14
  */
-@Logger
 @Deprecated
 public class CsProjProcessor
 {
+	private static final Logger LOGGER = Logger.getInstance(CsProjProcessor.class);
+
 	private static final Namespace ourNamespace = Namespace.getNamespace("http://schemas.microsoft.com/developer/msbuild/2003");
 
 	private static final String ourParentName = CsProjProcessor.class.getName();
